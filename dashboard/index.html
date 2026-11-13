@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>miron's board</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<main class="app">
+  <h1 id="boardTitle">miron's board</h1>
+  <nav class="tabs">
+    <button class="tab active" data-tab="time">time</button>
+    <button class="tab" data-tab="games">games</button>
+    <button class="tab" data-tab="system">system</button>
+    <button class="tab" data-tab="notes">notes</button>
+    <button class="tab" data-tab="settings">settings</button>
+  </nav>
+  <section id="tab-time" class="tab-panel active">
+    <div class="grid">
+      <section class="card clock-card">
+        <div class="source" id="timeSource">Local time</div>
+        <div class="time" id="clock">--:--:--</div>
+        <div class="date" id="date">Loading&hellip;</div>
+      </section>
+      <section class="card weather-card">
+        <div class="weather-icon" id="weatherIcon">&#8211;</div>
+        <div class="weather-temp" id="weatherTemp">--&deg;C</div>
+        <div class="weather-condition" id="weatherCondition">Fetching&hellip;</div>
+        <div class="weather-hilo" id="weatherHiLo">H: --&deg; &nbsp;&nbsp;L: --&deg;</div>
+        <div class="weather-meta" id="weatherMeta">Waiting for weather&hellip;</div>
+      </section>
+    </div>
+  </section>
+  <section id="tab-games" class="tab-panel">
+    <section class="card game-card">
+      <canvas id="gameCanvas" width="480" height="480"></canvas>
+      <div class="game-score">score: 0</div>
+      <div class="game-status" id="gameStatus">press arrow keys / WASD to start</div>
+      <input type="file" id="gameImport" accept=".py,.txt" class="term-btn">
+      <textarea id="gameCode" rows="8" cols="60"></textarea>
+    </section>
+  </section>
+  <section id="tab-system" class="tab-panel">
+    <section class="card game-card">
+      <div class="proc-header">processes <span id="procCount">(0)</span></div>
+      <div id="processList">loading&hellip;</div>
+    </section>
+  </section>
+  <section id="tab-notes" class="tab-panel">
+    <section class="card game-card">
+      <div class="proc-header">notes</div>
+      <textarea id="notesArea" rows="10" cols="60"></textarea>
+      <button class="term-btn" id="notesSave">save</button>
+    </section>
+  </section>
+  <section id="tab-settings" class="tab-panel">
+    <div class="sub-tabs" id="settingsTabs">
+      <button class="tab sub-tab" data-sub="appearance">appearance</button>
+      <button class="tab sub-tab" data-sub="weather">weather</button>
+      <button class="tab sub-tab" data-sub="games">games</button>
+      <button class="tab sub-tab" data-sub="time">time</button>
+      <button class="tab sub-tab" data-sub="system">system</button>
+    </div>
+    <section id="settings-appearance" class="tab-panel sub-panel">
+      <div class="proc-header">appearance</div>
+      <div class="bg-presets">
+        <button class="term-btn preset" data-bg="0">BG: SOLAR</button>
+        <button class="term-btn preset" data-bg="1">BG: MATRIX</button>
+        <button class="term-btn preset" data-bg="2">BG: ICE</button>
+        <button class="term-btn preset" data-bg="3">BG: BURG</button>
+        <label class="term-btn preset" for="bgUpload">BG: UPLOAD</label>
+        <input type="file" id="bgUpload" accept="image/*" hidden>
+      </div>
+      <div class="font-presets">
+        <button class="term-btn font-preset" data-font="0">FONT: TERMINAL</button>
+        <button class="term-btn font-preset" data-font="1">FONT: VT323</button>
+        <button class="term-btn font-preset" data-font="2">FONT: SHARETECH</button>
+        <button class="term-btn font-preset" data-font="3">FONT: IBM</button>
+      </div>
+      <input type="color" id="accentPicker" value="#4ade80" title="Accent colour">
+      <button id="snowToggle" class="term-btn" title="Toggle snow">&#10052; SNOW: ON</button>
+      <input type="color" id="snowColorPicker" value="#ffffff" title="Snow colour">
+      <input type="range" id="snowAmount" min="0" max="80" value="30" title="Snow amount">
+    </section>
+    <section id="settings-weather" class="tab-panel sub-panel">
+      <div class="proc-header">weather</div>
+      <button id="unitToggle" class="term-btn" title="Toggle Celsius / Fahrenheit">&#8451; UNITS: C</button>
+      <div>weather refreshes automatically every 30 minutes.</div>
+    </section>
+    <section id="settings-games" class="tab-panel sub-panel">
+      <div class="proc-header">games</div>
+      <button id="snakeToggle" class="term-btn" title="Start / stop snake">snake: start</button>
+      <div class="game-status" id="snakeStatus">press arrow keys / WASD to start</div>
+    </section>
+    <section id="settings-time" class="tab-panel sub-panel">
+      <div class="proc-header">time</div>
+      <label class="term-btn" for="boardNameInput">board name:</label>
+      <input type="text" id="boardNameInput" value="miron's board">
+      <button class="term-btn" id="timeSyncBtn">sync time now</button>
+    </section>
+    <section id="settings-system" class="tab-panel sub-panel">
+      <div class="proc-header">system</div>
+      <div>process list refreshes automatically every 2 seconds.</div>
+    </section>
+  </section>
+</main>
+<footer class="footer">Made by miron302, available on GitHub. Works across every platform.</footer>
+<script src="/script.js"></script>
+</body>
+</html>
