@@ -1,4 +1,4 @@
-# miron's board
+# pico2board
 
 A simple, terminal-themed Christmas dashboard that shows the **time**, **weather**, **process
 monitor**, and hosts a **snake** game, runs on your PC, and is driven by a **Raspberry Pi Pico 2**
