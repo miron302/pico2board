@@ -1,0 +1,40 @@
+#!/usr/bin/env python3
+"""pico2board - miron's board launcher.
+
+Usage:
+    pico2board              Require the Pico 2, start the server, open the browser.
+    pico2board --doctor     Diagnose why the Pico 2 is not detected.
+    pico2board --version    Show the version.
+    pico2board --help       Show this help.
+"""
+
+import sys
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent
+if str(BASE_DIR) not in sys.path:
+    sys.path.insert(0, str(BASE_DIR))
+
+VERSION = "1.0.1"
+
+
+def main() -> None:
+    args = sys.argv[1:]
+    if "--version" in args or "-V" in args:
+        print("pico2board %s" % VERSION)
+        return
+    if "--doctor" in args:
+        import doctor
+
+        sys.exit(doctor.main())
+    if "--help" in args or "-h" in args:
+        print(__doc__.strip())
+        return
+
+    import open_dashboard  # noqa: E402
+
+    open_dashboard.main()
+
+
+if __name__ == "__main__":
+    main()

@@ -41,19 +41,30 @@ plugged in over USB.
 ```bash
 cd /home/miron/Projects/pico2board
 pip install -r requirements.txt   # once: installs pyserial
-python3 open_dashboard.py         # starts server, waits for Pico 2, opens dashboard
+./pico2board                       # requires the Pico 2, starts server, opens browser
 ```
 
-`python3 open_dashboard.py` will:
-1. Stop any previous dashboard server instance.
-2. Start the dashboard server.
-3. Wait for the Raspberry Pi Pico 2 to be detected over USB.
-4. Open the dashboard in your browser.
+`./pico2board` will:
+1. Wait for the Raspberry Pi Pico 2 to be detected over USB (exits if none is found).
+2. Start the dashboard server (or reuse one that is already running).
+3. Open the dashboard in the platform's browser:
+   - **Windows** -> Microsoft Edge
+   - **Linux** -> Firefox
+   - **macOS** -> Safari
 
-Alternatively, run the server directly:
+Other commands:
 
 ```bash
-python3 run.py    # serves dashboard at http://127.0.0.1:8000/ and opens browser
+./pico2board --doctor    # diagnose why the Pico 2 is not detected
+./pico2board --version   # print the version
+./pico2board --help      # usage
+```
+
+Alternative entry points:
+
+```bash
+python3 open_dashboard.py    # same as ./pico2board
+python3 run.py               # serve dashboard directly and open browser
 ```
 
 Then:
@@ -88,10 +99,57 @@ You can make plugging the Pico 2 into the PC **do everything by itself**:
    )
 
 3. Plug the Pico 2 into the PC.
-4. The watcher detects the board, starts the dashboard server, and opens the browser —
-   automatically.
+4. The watcher detects the board, starts the dashboard server, and opens the browser
+   (Edge on Windows, Firefox on Linux, Safari on macOS) — automatically.
 
 You can stop the watcher with `pkill -f watch_dashboard.py` (systemd: `systemctl --user stop miron-board-dashboard`).
+
+### Troubleshooting (Linux / systemd)
+
+Run the built-in checker first:
+
+```bash
+./pico2board --doctor
+```
+
+Watch the watcher's log while plugging the board in:
+
+```bash
+journalctl --user -u miron-board-dashboard -f
+```
+
+Every 30 seconds it prints what it sees, e.g.:
+
+```
+[22:26:11] waiting for Pico 2 ... serial=none usb=none
+```
+
+When the board is detected you will see `Pico 2 detected on /dev/ttyACM0`,
+`dashboard server is up`, `opening browser...` and `browser open returned True`.
+
+**If it keeps saying `serial=none usb=none`**, the board is not enumerating over USB.
+A typical kernel log looks like this:
+
+```
+usb 1-4: device descriptor read/64, error -71
+usb 1-4: Device not responding to setup address.
+usb 1-4: unable to enumerate USB device
+```
+
+That is a hardware problem, not a software one. In order of likelihood:
+
+1. **Charge-only USB cable** — use a data cable.
+2. **USB port/hub** — plug directly into the PC, try another port.
+3. **Firmware/USB stack** — hold **BOOTSEL** while plugging in; a drive named
+   `RPI-RP2` should appear. Reflash the sketch from `firmware/`, then replug.
+4. **Bad board / USB connector.**
+
+Quick manual check after plugging the board in:
+
+```bash
+ls /dev/ttyACM*          # should exist when the Pico 2 is recognised
+lsusb | grep -i 2e8a     # Raspberry Pi vendor id
+```
 
 ## Requirements
 

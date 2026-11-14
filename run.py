@@ -192,9 +192,9 @@ def main():
     print("Pico Weather Dashboard running at http://%s:%d/" % (HOST, PORT), flush=True)
     try:
         if os.environ.get("PICO_DASHBOARD_NO_OPEN") != "1":
-            import webbrowser
+            import browser
 
-            webbrowser.open("http://%s:%d/" % (HOST, PORT))
+            browser.open_url("http://%s:%d/" % (HOST, PORT))
     except Exception:
         pass
     try:

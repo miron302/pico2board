@@ -4,7 +4,7 @@ After=graphical-session.target
 
 [Service]
 Type=simple
-ExecStart=%h/.local/bin/python3 %h/Projects/pico2board/watch_dashboard.py
+ExecStart=/usr/bin/env python3 %h/Projects/pico2board/watch_dashboard.py
 WorkingDirectory=%h/Projects/pico2board
 Restart=on-failure
 RestartSec=10
